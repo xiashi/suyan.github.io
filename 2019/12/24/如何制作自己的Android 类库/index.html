@@ -18,22 +18,32 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Android指纹识别 | Hexo</title>
-  <meta name="description" content="Android指纹识别权限申请&lt;uses-permission android:name&#x3D;&quot;android.permission.USE_FINGERPRINT&quot; &#x2F;&gt;注意事项：1、Android指纹识别功能是在Android 6.0 增加的新功能，所以API只在6.0以上的版本才有，开发时需要做好版本判断； 2、指纹识别只是是被手机内部已经录入的指纹，验证指纹时只">
+  <title>如何制作自己的Android 类库 | Hexo</title>
+  <meta name="description" content="目前比较常见的Android开源托管地址有如下几种：    类型 特点    Maven Central 发布过程繁杂冗长。   jCenter jCenter貌似稍微简单一点，但也不是省油的灯   自定义仓库 企业内部可能会见到。   以上三种方式用起来都挺难受的，于是乎JitPack横空出世，让你能优雅地发布属于自己的开源库了，首先对JitPack做一个简短的介绍。 JitPack地址 Jit">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android指纹识别">
-<meta property="og:url" content="https://github.com/xiashi/xiashi.github.io/tree/master/2019/12/24/Android%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB/index.html">
+<meta property="og:title" content="如何制作自己的Android 类库">
+<meta property="og:url" content="https://github.com/xiashi/xiashi.github.io/tree/master/2019/12/24/%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84Android%20%E7%B1%BB%E5%BA%93/index.html">
 <meta property="og:site_name" content="阿龙的猪">
-<meta property="og:description" content="Android指纹识别权限申请&lt;uses-permission android:name&#x3D;&quot;android.permission.USE_FINGERPRINT&quot; &#x2F;&gt;注意事项：1、Android指纹识别功能是在Android 6.0 增加的新功能，所以API只在6.0以上的版本才有，开发时需要做好版本判断； 2、指纹识别只是是被手机内部已经录入的指纹，验证指纹时只">
+<meta property="og:description" content="目前比较常见的Android开源托管地址有如下几种：    类型 特点    Maven Central 发布过程繁杂冗长。   jCenter jCenter貌似稍微简单一点，但也不是省油的灯   自定义仓库 企业内部可能会见到。   以上三种方式用起来都挺难受的，于是乎JitPack横空出世，让你能优雅地发布属于自己的开源库了，首先对JitPack做一个简短的介绍。 JitPack地址 Jit">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-12-24T03:30:31.210Z">
-<meta property="article:modified_time" content="2019-12-24T03:30:31.211Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step9.png">
+<meta property="article:published_time" content="2019-12-24T06:05:21.296Z">
+<meta property="article:modified_time" content="2019-12-24T06:05:21.296Z">
 <meta property="article:author" content="阿龙">
-<meta property="article:tag" content="指纹识别">
 <meta property="article:tag" content="技术">
+<meta property="article:tag" content="类库">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step1.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://github.com/xiashi/xiashi.github.io/tree/master/2019/12/24/Android%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB/index.html">
+  <link rel="canonical" href="https://github.com/xiashi/xiashi.github.io/tree/master/2019/12/24/%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84Android%20%E7%B1%BB%E5%BA%93/index.html">
   
     <link rel="alternate" href="/atom.xml" title="阿龙的猪" type="application/atom+xml">
   
@@ -350,14 +360,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-Android指纹识别" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-如何制作自己的Android 类库" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      Android指纹识别
+      如何制作自己的Android 类库
     </h1>
   
 
@@ -365,8 +375,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2019/12/24/Android%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB/" class="article-date">
-	  <time datetime="2019-12-24T03:30:31.210Z" itemprop="datePublished">2019-12-24</time>
+	<a href="/2019/12/24/%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84Android%20%E7%B1%BB%E5%BA%93/" class="article-date">
+	  <time datetime="2019-12-24T06:05:21.296Z" itemprop="datePublished">2019-12-24</time>
 	</a>
 </span>
         
@@ -378,151 +388,60 @@
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/%E6%8A%80%E6%9C%AF/" rel="tag">技术</a>, <a class="article-tag-link" href="/tags/%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB/" rel="tag">指纹识别</a>
+	<a class="article-tag-link" href="/tags/%E6%8A%80%E6%9C%AF/" rel="tag">技术</a>, <a class="article-tag-link" href="/tags/%E7%B1%BB%E5%BA%93/" rel="tag">类库</a>
   </span>
 
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/12/24/Android%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/12/24/%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84Android%20%E7%B1%BB%E5%BA%93/#comments" class="article-comment-link">评论</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h2 id="Android指纹识别"><a href="#Android指纹识别" class="headerlink" title="Android指纹识别"></a>Android指纹识别</h2><h4 id="权限申请"><a href="#权限申请" class="headerlink" title="权限申请"></a>权限申请</h4><pre><code>&lt;uses-permission android:name=&quot;android.permission.USE_FINGERPRINT&quot; /&gt;</code></pre><h4 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h4><pre><code>1、Android指纹识别功能是在Android 6.0 增加的新功能，所以API只在6.0以上的版本才有，开发时需要做好版本判断；
-2、指纹识别只是是被手机内部已经录入的指纹，验证指纹时只会返回成功或者失败，因为涉及用户隐私，其他信息是无法拿到的；也就是目前前端是无法区分某个指纹的；</code></pre><h4 id="兼容低版本"><a href="#兼容低版本" class="headerlink" title="兼容低版本"></a>兼容低版本</h4><pre><code>1、使用v4包中的FingerprintManagerCompat类代替FingerprintManager（但是此方法在部分机型上使用时获取指纹模块，权限等很多操作的信息都是null，所以不建议使用）；
-2、在应用加载的时候，即在application中加入判断是否存在FingerprintManager类，如果没有，则不去使用指纹功能；
-具体代码如下：
- private void initAPI() {
-    if (PreferencesUtils.contains(getApplicationContext(),ETConstant.HAS_FINGERPRINT_API)) { // 检查是否存在该值，不必每次都通过反射来检查
-        return;
-    }
-    try {
-        Class.forName(&quot;android.hardware.fingerprint.FingerprintManager&quot;); // 通过反射判断是否存在该类
-        PreferencesUtils.putBoolean(getApplicationContext(),ETConstant.HAS_FINGERPRINT_API, true);
-    } catch (ClassNotFoundException e) {
-        PreferencesUtils.putBoolean(getApplicationContext(),ETConstant.HAS_FINGERPRINT_API, false);
-        e.printStackTrace();
-    }
-}</code></pre><h4 id="简单封装的工具类："><a href="#简单封装的工具类：" class="headerlink" title="简单封装的工具类："></a>简单封装的工具类：</h4><pre><code>public class FingerprintUtils {
-    private static FingerprintManager mFpM;
-    public static CancellationSignal cancellationSignal;
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public static void callFingerPrint(Context context, final OnCallBackListenr listener) {
-        mFpM = (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        if (!mFpM.isHardwareDetected()) { //判断设备是否支持
-            if (listener != null)
-                listener.onSupportFailed();
-            return;
-        }
-        KeyguardManager keyguardManager =(KeyguardManager)context.getSystemService(context.KEYGUARD_SERVICE);
-        if (!keyguardManager.isKeyguardSecure()) {//判断设备是否处于安全保护中
-            if (listener != null)
-                listener.onInsecurity();
-            return;
-        }
-        if (!mFpM.hasEnrolledFingerprints()){ //判断设备是否已经注册过指纹
-            if (listener != null)
-                listener.onEnrollFailed(); //未注册
-            return;
-        }
-        if (listener != null)
-            listener.onAuthenticationStart(); //开始指纹识别
-        cancellationSignal  = new CancellationSignal(); //必须重新实例化，否则cancel 过一次就不能再使用了
-        mFpM.authenticate(null,cancellationSignal,0,new FingerprintManager.AuthenticationCallback(){
-            // 当出现错误的时候回调此函数，比如多次尝试都失败了的时候，errString是错误信息，比如华为的提示就是：尝试次数过多，请稍后再试。
-            @Override
-            public void onAuthenticationError(int errMsgId, CharSequence errString) {
-                if (listener != null)
-                    listener.onAuthenticationError(errMsgId ,errString );
-            }
+        <p>目前比较常见的Android开源托管地址有如下几种：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Maven Central</td>
+<td>发布过程繁杂冗长。</td>
+</tr>
+<tr>
+<td>jCenter</td>
+<td>jCenter貌似稍微简单一点，但也不是省油的灯</td>
+</tr>
+<tr>
+<td>自定义仓库</td>
+<td>企业内部可能会见到。</td>
+</tr>
+</tbody></table>
+<p>以上三种方式用起来都挺难受的，于是乎JitPack横空出世，让你能优雅地发布属于自己的开源库了，首先对JitPack做一个简短的介绍。</p>
+<p><a href="https://jitpack.io/" target="_blank" rel="noopener">JitPack地址</a></p>
+<h3 id="JitPack是什么？"><a href="#JitPack是什么？" class="headerlink" title="JitPack是什么？"></a>JitPack是什么？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JitPack是一个自定义的Maven仓库。</span><br></pre></td></tr></table></figure>
 
-            // 当指纹验证失败的时候会回调此函数，失败之后允许多次尝试，失败次数过多会停止响应一段时间然后再停止sensor的工作
-            @Override
-            public void onAuthenticationFailed() {
-                if (listener != null)
-                    listener.onAuthenticationFailed();
-            }
+<h3 id="JitPack安全吗？"><a href="#JitPack安全吗？" class="headerlink" title="JitPack安全吗？"></a>JitPack安全吗？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">个人觉得还是比较安全的，毕竟开源库都是给大家用的，源码都能分享出来，如果你是担心它在里面插入恶意代码的话，在AndroidStudio的 External Libraies里面能够看到反编译的依赖库的源码，可以查看一下。</span><br></pre></td></tr></table></figure>
 
-            @Override
-            public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
-                if (listener != null)
-                    listener.onAuthenticationHelp(helpMsgId,helpString);
-            }
+<h3 id="JitPack好处都有啥"><a href="#JitPack好处都有啥" class="headerlink" title="JitPack好处都有啥?"></a>JitPack好处都有啥?</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">省时间，省时间，省时间</span><br></pre></td></tr></table></figure>
 
-            // 当验证的指纹成功时会回调此函数，然后不再监听指纹sensor
-            @Override
-            public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
-                if (listener != null)
-                    listener.onAuthenticationSucceeded(result);
-            }
-            ;
-        },null);
+<h3 id="AS发布安卓开源库到JitPack的步骤（以我自己的开源库MyUtils为例）"><a href="#AS发布安卓开源库到JitPack的步骤（以我自己的开源库MyUtils为例）" class="headerlink" title="AS发布安卓开源库到JitPack的步骤（以我自己的开源库MyUtils为例）"></a>AS发布安卓开源库到JitPack的步骤（以我自己的开源库MyUtils为例）</h3><h4 id="第一步：新建一个Android项目（步骤略）"><a href="#第一步：新建一个Android项目（步骤略）" class="headerlink" title="第一步：新建一个Android项目（步骤略）"></a>第一步：新建一个Android项目（步骤略）</h4><h4 id="第二步：在项目中添加一个Library"><a href="#第二步：在项目中添加一个Library" class="headerlink" title="第二步：在项目中添加一个Library"></a>第二步：在项目中添加一个Library</h4><h5 id="添加Library操作步骤：File-–-gt-New-–-gt-New-Module"><a href="#添加Library操作步骤：File-–-gt-New-–-gt-New-Module" class="headerlink" title="添加Library操作步骤：File –&gt; New –&gt;New Module"></a>添加Library操作步骤：File –&gt; New –&gt;New Module</h5><p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step1.png" alt=""></p>
+<p>点击Next后，然后填入你Library的名称等等..  即可创建完成Library</p>
+<h4 id="第三步：配置Library的build-gradle"><a href="#第三步：配置Library的build-gradle" class="headerlink" title="第三步：配置Library的build.gradle"></a>第三步：配置Library的build.gradle</h4><h5 id="添加如下两行配置至Library的build-gradle"><a href="#添加如下两行配置至Library的build-gradle" class="headerlink" title="添加如下两行配置至Library的build.gradle"></a>添加如下两行配置至Library的build.gradle</h5><pre><code>apply plugin: &apos;com.github.dcendents.android-maven&apos;
+group=&apos;com.github.xiashi&apos;</code></pre><p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step3.png" alt=""></p>
+<h4 id="第四步：配置Project的build-gradle"><a href="#第四步：配置Project的build-gradle" class="headerlink" title="第四步：配置Project的build.gradle"></a>第四步：配置Project的build.gradle</h4><h5 id="添加如下配置至Project的build-gradle-plugin的版本用最新的，现在最新的版本是2-1"><a href="#添加如下配置至Project的build-gradle-plugin的版本用最新的，现在最新的版本是2-1" class="headerlink" title="添加如下配置至Project的build.gradle(plugin的版本用最新的，现在最新的版本是2.1)"></a>添加如下配置至Project的build.gradle(plugin的版本用最新的，现在最新的版本是2.1)</h5><pre><code>classpath &apos;com.github.dcendents:android-maven-gradle-plugin:2.1&apos;</code></pre><p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step2.png" alt=""></p>
+<h4 id="第五步：提交项目到github"><a href="#第五步：提交项目到github" class="headerlink" title="第五步：提交项目到github"></a>第五步：提交项目到github</h4><h4 id="第六步-Release你的仓库或者给你的仓库打一个Tag-重点"><a href="#第六步-Release你的仓库或者给你的仓库打一个Tag-重点" class="headerlink" title="第六步: Release你的仓库或者给你的仓库打一个Tag(重点)"></a>第六步: Release你的仓库或者给你的仓库打一个Tag(重点)</h4><h5 id="1-点击图示进入Release界面"><a href="#1-点击图示进入Release界面" class="headerlink" title="1.点击图示进入Release界面"></a>1.点击图示进入Release界面</h5><p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step4.png" alt=""></p>
+<h5 id="2-创建一个Release或Tag"><a href="#2-创建一个Release或Tag" class="headerlink" title="2.创建一个Release或Tag"></a>2.创建一个Release或Tag</h5><p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step5.png" alt=""></p>
+<h5 id="3-填写基本信息"><a href="#3-填写基本信息" class="headerlink" title="3.填写基本信息"></a>3.填写基本信息</h5><p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step6.png" alt=""></p>
+<h4 id="第七步：将你github的仓库地址依赖到JitPack"><a href="#第七步：将你github的仓库地址依赖到JitPack" class="headerlink" title="第七步：将你github的仓库地址依赖到JitPack"></a>第七步：将你github的仓库地址依赖到JitPack</h4><p><a href="https://jitpack.io/" target="_blank" rel="noopener">JitPack地址</a></p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step7.png" alt=""></p>
+<h6 id="在JitPack依赖你的github开源地址后，就会自动生成引用该仓库的配置信息"><a href="#在JitPack依赖你的github开源地址后，就会自动生成引用该仓库的配置信息" class="headerlink" title="在JitPack依赖你的github开源地址后，就会自动生成引用该仓库的配置信息"></a>在JitPack依赖你的github开源地址后，就会自动生成引用该仓库的配置信息</h6><p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step8.png" alt=""></p>
+<h4 id="第八步：将生成的配置信息-编辑在项目的README中"><a href="#第八步：将生成的配置信息-编辑在项目的README中" class="headerlink" title="第八步：将生成的配置信息,编辑在项目的README中"></a>第八步：将生成的配置信息,编辑在项目的README中</h4><p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/Android_jar/step9.png" alt=""></p>
 
-    }
-    interface  OnCallBackListenr{
-        void onSupportFailed();
-        void onInsecurity();
-        void onEnrollFailed();
-        void onAuthenticationStart();
-        void onAuthenticationError(int errMsgId, CharSequence errString);
-        void onAuthenticationFailed();
-        void onAuthenticationHelp(int helpMsgId, CharSequence helpString);
-        void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public static  void cancel(){
-        if (cancellationSignal != null)
-            cancellationSignal.cancel();
-    }
-}</code></pre><h4 id="本地sp工具类："><a href="#本地sp工具类：" class="headerlink" title="本地sp工具类："></a>本地sp工具类：</h4><pre><code>public class PreferencesUtils {
-    public static final String PREFERENCES_NAME = &quot;ethome&quot;;
-
-    public static void putString(Context context, String key, String value) {
-        SharedPreferences settings = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(key, value);
-        editor.commit();
-     }
-
-
-    public static String getString(Context context, String key) {
-        return getString(context, key, null);
-    }
-
-    public static boolean contains(Context context, String key) {
-        SharedPreferences settings = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-        return settings.contains(key);
-    }
-
-    public static String getString(Context context, String key, String defaultValue) {
-        SharedPreferences settings = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-        return settings.getString(key, defaultValue);
-    }
-
-
-    public static void putBoolean(Context context, String key, boolean value) {
-        SharedPreferences settings = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean(key, value);
-        editor.commit();
-    }
-
-    public static boolean getBoolean(Context context, String key) {
-        return getBoolean(context, key, false);
-    }
-
-    public static boolean getBoolean(Context context, String key, boolean defaultValue) {
-        SharedPreferences sp = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-        return sp.getBoolean(key, defaultValue);
-    }
-
-}</code></pre>
       
     </div>
     <div class="article-footer">
@@ -531,7 +450,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://github.com/xiashi/xiashi.github.io/tree/master/2019/12/24/Android%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB/" title="Android指纹识别" target="_blank" rel="external">https://github.com/xiashi/xiashi.github.io/tree/master/2019/12/24/Android%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB/</a>
+      <a href="https://github.com/xiashi/xiashi.github.io/tree/master/2019/12/24/%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84Android%20%E7%B1%BB%E5%BA%93/" title="如何制作自己的Android 类库" target="_blank" rel="external">https://github.com/xiashi/xiashi.github.io/tree/master/2019/12/24/%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84Android%20%E7%B1%BB%E5%BA%93/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -578,12 +497,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2019/12/24/My-Gallery/" title="My-Gallery"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/2019/12/24/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" title="小程序开发指南"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/2019/12/23/hello-world/" title="Hello World"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2019/12/24/GitHub%20%E4%BB%A3%E7%A0%81%E6%89%98%E7%AE%A1%E5%B9%B3%E5%8F%B0%E6%8F%90%E4%BA%A4%E4%BB%A3%E7%A0%81%E6%97%B6%20emoji%20%E8%A1%A8%E6%83%85%E7%9A%84%E4%BD%BF%E7%94%A8/" title="GitHub 代码托管平台提交代码时 emoji 表情的使用"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     

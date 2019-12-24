@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Android Studio自用插件总结 | Hexo</title>
+  <meta name="description" content="1. JsonOnlineViewer 在Android Studio中请求、调试接口 2. ADB Idea 开发应用时，有时候调试需要清掉当前App的数据或者重启应用，可以使用命令行或手动操作，当然对于喜欢偷懒的程序员来说还能更加简单。adb-idea插件可以让你很舒服地kill应用、重启、清数据、卸载等等。  3. GsonFormat &#x3D;&#x3D;使用方法：快捷键Alt+S也可以使用Alt+Ins">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Studio自用插件总结">
+<meta property="og:url" content="https://github.com/xiashi/xiashi.github.io/tree/master/2019/12/24/Android%20Studio%E8%87%AA%E7%94%A8%E6%8F%92%E4%BB%B6%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="阿龙的猪">
+<meta property="og:description" content="1. JsonOnlineViewer 在Android Studio中请求、调试接口 2. ADB Idea 开发应用时，有时候调试需要清掉当前App的数据或者重启应用，可以使用命令行或手动操作，当然对于喜欢偷懒的程序员来说还能更加简单。adb-idea插件可以让你很舒服地kill应用、重启、清数据、卸载等等。  3. GsonFormat &#x3D;&#x3D;使用方法：快捷键Alt+S也可以使用Alt+Ins">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/JsonOnlineViewer.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/adb-idea.webp">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/GsonFormat.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/ButterKnife.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/otto-intellij-plugin1.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/otto-intellij-plugin2.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/Exynap.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/PermissionsDispatcherplugin.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/WakaTime1.webp">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/WakaTime2.webp">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/WakaTime3.webp">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/LifecycleSorter1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidCodeGenerator1.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidCodeGenerator2.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/Android-DPI-Calculator1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/Android-DPI-Calculator2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/Android-DPI-Calculator3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/SingletonTest1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/SingletonTest2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/SingletonTest3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/MVPHelper.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/ECTranslation.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/JavaDoc.webp">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidStyler.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/SelectorChapekforAndroid1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/SelectorChapekforAndroid2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/SelectorChapekforAndroid3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/genymotion.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidPostfixCompletion.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidHoloColorsGenerator.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/dagger-intellij-plugin.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidMethodsCount.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/ADBWIFI.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidWiFiADB1.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidWiFiADB2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/GenerateSerialVerisonUID.webp">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/Markdownsupport.webp">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/idea-markdown.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/MarkdownNavigator.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/RemoveButterKnife.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/eventbus-intellij-plugin.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/eventbus3-intellij-plugin.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/folding-plugin.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidStudioPrettify1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidStudioPrettify2.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/.ignore1.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/.ignore2.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/.ignore3.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidLocalizationer1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidLocalizationer2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/android-strings-search-plugin.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/ApkMultiChannelPlugin1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/ApkMultiChannelPlugin2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/ApkMultiChannelPlugin3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/MultiTypeTemplates1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/MultiTypeTemplates2.jpg">
+<meta property="article:published_time" content="2019-12-24T06:05:21.348Z">
+<meta property="article:modified_time" content="2019-12-24T06:05:21.348Z">
+<meta property="article:author" content="阿龙">
+<meta property="article:tag" content="技术">
+<meta property="article:tag" content="Android studio">
+<meta property="article:tag" content="插件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/JsonOnlineViewer.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://github.com/xiashi/xiashi.github.io/tree/master/2019/12/24/Android%20Studio%E8%87%AA%E7%94%A8%E6%8F%92%E4%BB%B6%E6%80%BB%E7%BB%93/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="阿龙的猪" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/xiashi" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">阿龙的猪</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">游戏人生</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 长沙, 中国</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="https://github.com/xiashi">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/xiashi" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8B%E8%AF%95/">测试</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-studio/" rel="tag">Android studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF/" rel="tag">技术</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF1/" rel="tag">技术1</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB/" rel="tag">指纹识别</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8B%E8%AF%951/" rel="tag">测试1</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB%E5%BA%93/" rel="tag">类库</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E6%83%85%E4%BD%BF%E7%94%A8/" rel="tag">表情使用</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Android-studio/" style="font-size: 13px;">Android studio</a> <a href="/tags/git/" style="font-size: 13px;">git</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 13px;">小程序</a> <a href="/tags/%E6%8A%80%E6%9C%AF/" style="font-size: 14px;">技术</a> <a href="/tags/%E6%8A%80%E6%9C%AF1/" style="font-size: 13px;">技术1</a> <a href="/tags/%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB/" style="font-size: 13px;">指纹识别</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%B5%8B%E8%AF%951/" style="font-size: 13px;">测试1</a> <a href="/tags/%E7%B1%BB%E5%BA%93/" style="font-size: 13px;">类库</a> <a href="/tags/%E8%A1%A8%E6%83%85%E4%BD%BF%E7%94%A8/" style="font-size: 13px;">表情使用</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/12/24/Android%20Studio%E8%87%AA%E7%94%A8%E6%8F%92%E4%BB%B6%E6%80%BB%E7%BB%93/" class="title">Android Studio自用插件总结</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-24T06:05:21.348Z" itemprop="datePublished">2019-12-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/12/24/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" class="title">小程序开发指南</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-24T06:05:21.322Z" itemprop="datePublished">2019-12-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/12/24/%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84Android%20%E7%B1%BB%E5%BA%93/" class="title">如何制作自己的Android 类库</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-24T06:05:21.296Z" itemprop="datePublished">2019-12-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/12/24/GitHub%20%E4%BB%A3%E7%A0%81%E6%89%98%E7%AE%A1%E5%B9%B3%E5%8F%B0%E6%8F%90%E4%BA%A4%E4%BB%A3%E7%A0%81%E6%97%B6%20emoji%20%E8%A1%A8%E6%83%85%E7%9A%84%E4%BD%BF%E7%94%A8/" class="title">GitHub 代码托管平台提交代码时 emoji 表情的使用</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-24T06:05:21.275Z" itemprop="datePublished">2019-12-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%B5%8B%E8%AF%95/">测试</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/12/24/My-Gallery/" class="title">My-Gallery</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-24T03:37:23.239Z" itemprop="datePublished">2019-12-24</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Android Studio自用插件总结" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android Studio自用插件总结
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/12/24/Android%20Studio%E8%87%AA%E7%94%A8%E6%8F%92%E4%BB%B6%E6%80%BB%E7%BB%93/" class="article-date">
+	  <time datetime="2019-12-24T06:05:21.348Z" itemprop="datePublished">2019-12-24</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Android-studio/" rel="tag">Android studio</a>, <a class="article-tag-link" href="/tags/%E6%8A%80%E6%9C%AF/" rel="tag">技术</a>, <a class="article-tag-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/12/24/Android%20Studio%E8%87%AA%E7%94%A8%E6%8F%92%E4%BB%B6%E6%80%BB%E7%BB%93/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="1-JsonOnlineViewer"><a href="#1-JsonOnlineViewer" class="headerlink" title="1. JsonOnlineViewer"></a>1. JsonOnlineViewer</h3><hr>
+<p>在Android Studio中请求、调试接口<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/JsonOnlineViewer.png" alt=""></p>
+<h3 id="2-ADB-Idea"><a href="#2-ADB-Idea" class="headerlink" title="2. ADB Idea"></a>2. ADB Idea</h3><hr>
+<p>开发应用时，有时候调试需要清掉当前App的数据或者重启应用，可以使用命令行或手动操作，当然对于喜欢偷懒的程序员来说还能更加简单。adb-idea插件可以让你很舒服地kill应用、重启、清数据、卸载等等。</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/adb-idea.webp" alt=""></p>
+<h3 id="3-GsonFormat"><a href="#3-GsonFormat" class="headerlink" title="3. GsonFormat"></a>3. GsonFormat</h3><hr>
+<p>==使用方法：快捷键Alt+S也可以使用Alt+Insert选择GsonFormat==</p>
+<p>快速将json字符串转换成一个Java Bean，免去我们根据json字符串手写对应java Bean的过程。</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/GsonFormat.gif" alt=""></p>
+<h3 id="4-ButterKnife-Zelezny"><a href="#4-ButterKnife-Zelezny" class="headerlink" title="4. ButterKnife Zelezny"></a>4. ButterKnife Zelezny</h3><hr>
+<p>==使用方法：Ctrl+Shift+B选择图上所示选项==</p>
+<p>配合ButterKnife实现注解，从此不用写findViewById，想着就爽啊。在Activity，Fragment，Adapter中选中布局xml的资源id自动生成butterknife注解。<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/ButterKnife.gif" alt=""></p>
+<h3 id="5-otto-intellij-plugin"><a href="#5-otto-intellij-plugin" class="headerlink" title="5. otto-intellij-plugin"></a>5. otto-intellij-plugin</h3><hr>
+<p>otto事件导航工具。<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/otto-intellij-plugin1.gif" alt=""><br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/otto-intellij-plugin2.gif" alt=""></p>
+<h3 id="6-Exynap"><a href="#6-Exynap" class="headerlink" title="6. Exynap"></a>6. Exynap</h3><hr>
+<p>快速使用代码模板，ctrl+shift+d调用<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/Exynap.gif" alt=""></p>
+<h3 id="7-PermissionsDispatcher-plugin-github"><a href="#7-PermissionsDispatcher-plugin-github" class="headerlink" title="7. PermissionsDispatcher plugin github"></a>7. PermissionsDispatcher plugin <a href="https://github.com/shiraji/permissions-dispatcher-plugin">github</a></h3><hr>
+<p>自动生成6.0权限的代码</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/PermissionsDispatcherplugin.gif" alt=""></p>
+<h3 id="8-WakaTime-使用方法"><a href="#8-WakaTime-使用方法" class="headerlink" title="8. WakaTime 使用方法"></a>8. WakaTime <a href="https://wakatime.com/android-studio" target="_blank" rel="noopener">使用方法</a></h3><hr>
+<p>WakaTime是一款记录你Coding时长的工具，支持目前市面上大多数主流的开发IDE，比如Android Studio/Atom/VS Code/Eclipse等等，当前支持IDE如下 (key : e004ffd8-4859-4675-a8cf-980c17eefc7a)</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/WakaTime1.webp" alt=""></p>
+<p>WaKaTime作为插件安装完毕之后，需要提供一个API key，在[WaKaTime官网]（<a href="https://wakatime.com/login）上注册后，在Setting中可以找到API" target="_blank" rel="noopener">https://wakatime.com/login）上注册后，在Setting中可以找到API</a> key，复制粘贴到AS中即可。之后WaKaTime就可以同步你的Coding时间到WaKaTime平台的DashBoard上，提供了各种图形结构显示。</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/WakaTime2.webp" alt=""></p>
+<p>后期如果换了账号和API key，也可以在AS的Tools菜单里选择WaKaTime Settings修改<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/WakaTime3.webp" alt=""></p>
+<h3 id="9-Lifecycle-Sorter"><a href="#9-Lifecycle-Sorter" class="headerlink" title="9. Lifecycle Sorter"></a>9. Lifecycle Sorter</h3><hr>
+<p>Android的开发时常会用到Activity/Fragment/Service等基础组件，如果业务逻辑太复杂难免会导致类太长，不太好找生命周期函数，可以用Lifecycle Sorter来帮你排序，Lifecycle Sorter支持把生命周期函数提取到类最前和最后，这也符合大众的编码习惯。在Code菜单里能找到对应功能快捷键。</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/LifecycleSorter1.png" alt=""></p>
+<h3 id="10-CodeGlance"><a href="#10-CodeGlance" class="headerlink" title="10. CodeGlance"></a>10. CodeGlance</h3><hr>
+<p>在右边可以预览代码，实现快速定位</p>
+<h3 id="11-Android-strings-xml-tools"><a href="#11-Android-strings-xml-tools" class="headerlink" title="11. Android strings.xml tools"></a>11. Android strings.xml tools</h3><hr>
+<p>可以用来管理Android项目中的字符串资源。它提供了排序Android本地文件和添加缺少的字符串的基本操作。虽然这个插件是有限制的，但如果应用程序有大量的字符串资源，那这个插件就非常有用了</p>
+<h3 id="12-Android-code-Generator"><a href="#12-Android-code-Generator" class="headerlink" title="12. Android code Generator"></a>12. Android code Generator</h3><hr>
+<p>Android Studio/IntelliJ IDEA的安卓代码生成插件，帮助提高app的开发速度。可以从layout生成Activity类、Fragment类、Adapter类，从menu.xml生成menu代码等</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidCodeGenerator1.gif" alt=""><br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidCodeGenerator2.gif" alt=""></p>
+<h3 id="13-Android-DPI-Calculator"><a href="#13-Android-DPI-Calculator" class="headerlink" title="13. Android DPI Calculator"></a>13. Android DPI Calculator</h3><hr>
+<p>Android-DPI-Calculator可以计算在不同hdpi文件夹下对应的尺寸大小，比如已知在hdpi有个控件或资源文件大小为width * height，插件可以计算出在其他如mdpi\xhdpi\xxhdpi等文件下的大小。安装完插件可以在菜单栏的Tools - DPI Calculator中唤出计算器。</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/Android-DPI-Calculator1.png" alt=""></p>
+<p>使用:</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/Android-DPI-Calculator2.png" alt=""></p>
+<p>或者:</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/Android-DPI-Calculator3.png" alt=""></p>
+<h3 id="14-SingletonTest"><a href="#14-SingletonTest" class="headerlink" title="14. SingletonTest"></a>14. SingletonTest</h3><hr>
+<p>快速生成单例模式的插件。单例模式的六种生成方式<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/SingletonTest1.png" alt=""><br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/SingletonTest2.png" alt=""><br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/SingletonTest3.png" alt=""></p>
+<h3 id="15-Material-Theme-UI"><a href="#15-Material-Theme-UI" class="headerlink" title="15. Material Theme UI"></a>15. Material Theme UI</h3><hr>
+<p>将Android Studio变为Material Theme UI</p>
+<h3 id="16-MVPHelper-一键生成MVP代码"><a href="#16-MVPHelper-一键生成MVP代码" class="headerlink" title="16. MVPHelper 一键生成MVP代码"></a>16. MVPHelper <a href="http://androidwing.net/index.php/27" target="_blank" rel="noopener">一键生成MVP代码</a></h3><hr>
+<p>一款Intellj IDEA 和Android Studio 自动生成MVP模式所需接口以及实现类的插件</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/MVPHelper.gif" alt=""></p>
+<h3 id="17-ECTranslation"><a href="#17-ECTranslation" class="headerlink" title="17. ECTranslation"></a>17. ECTranslation</h3><hr>
+<p>Android Studio Plugin,Translate English to Chinese. Android Studio 翻译插件,可以将英文翻译为中文。<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/ECTranslation.png" alt=""></p>
+<h3 id="18-TranslationPlugin"><a href="#18-TranslationPlugin" class="headerlink" title="18. TranslationPlugin"></a>18. TranslationPlugin</h3><hr>
+<p>又一翻译插件,可中英互译。</p>
+<h3 id="19-JavaDoc"><a href="#19-JavaDoc" class="headerlink" title="19. JavaDoc"></a>19. JavaDoc</h3><hr>
+<p>出色的程序员总是会在类里写上必要的注释，在生成jar或提供module给第三方用时常会需要相关的api文档，用JavaDoc插件就可以很简单地生成api文档。安装完之后在菜单栏选择Tools - Generate JavaDoc，之后选择需要生成文档的module、输出路径、作者署名、版本等，点击OK便可生成文档。如下</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/JavaDoc.webp" alt=""></p>
+<p>有个点需要提一下就是Other command line arguments，JavaDoc插件生成文档会有中文乱码问题，加上参数即可避免，添加如下内容:</p>
+<pre><code>-encoding utf-8 -charset utf-8</code></pre><h3 id="20-Android-Styler"><a href="#20-Android-Styler" class="headerlink" title="20. Android Styler"></a>20. Android Styler</h3><hr>
+<p>根据xml自动生成style代码的插件<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidStyler.png" alt=""></p>
+<h3 id="21-SelectorChapek-for-Android"><a href="#21-SelectorChapek-for-Android" class="headerlink" title="21. SelectorChapek for Android"></a>21. SelectorChapek for Android</h3><hr>
+<p>通过资源文件命名自动生成Selector文件。</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/SelectorChapekforAndroid1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/SelectorChapekforAndroid2.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/SelectorChapekforAndroid3.png" alt=""></p>
+<h3 id="22-genymotion"><a href="#22-genymotion" class="headerlink" title="22. genymotion"></a>22. genymotion</h3><hr>
+<p>速度较快的android模拟器<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/genymotion.png" alt=""></p>
+<h3 id="23-Android-Postfix-Completion"><a href="#23-Android-Postfix-Completion" class="headerlink" title="23. Android Postfix Completion"></a>23. Android Postfix Completion</h3><hr>
+<p>可根据后缀快速完成代码，这个属于拓展吧，系统已经有这些功能，如sout、notnull等，这个插件在原有的基础上增添了一些新的功能，我更想做的是通过原作者的代码自己定制功能，那就更爽了<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidPostfixCompletion.gif" alt=""></p>
+<h3 id="24-Android-Holo-Colors-Generator"><a href="#24-Android-Holo-Colors-Generator" class="headerlink" title="24. Android Holo Colors Generator"></a>24. Android Holo Colors Generator</h3><hr>
+<p>通过自定义Holo主题颜色生成对应的Drawable和布局文件<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidHoloColorsGenerator.png" alt=""></p>
+<h3 id="25-dagger-intellij-plugin"><a href="#25-dagger-intellij-plugin" class="headerlink" title="25. dagger-intellij-plugin"></a>25. dagger-intellij-plugin</h3><hr>
+<p>dagger可视化辅助工具</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/dagger-intellij-plugin.gif" alt=""></p>
+<h3 id="26-Android-Methods-Count"><a href="#26-Android-Methods-Count" class="headerlink" title="26. Android Methods Count"></a>26. Android Methods Count</h3><hr>
+<p>显示依赖库中得方法数<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidMethodsCount.gif" alt=""></p>
+<h2 id="Android-Parcelable-code-generator"><a href="#Android-Parcelable-code-generator" class="headerlink" title="Android Parcelable code generator"></a>Android Parcelable code generator</h2><p>将类快速进行Parcelable序列化</p>
+<h2 id="Android-Postfix-Completion"><a href="#Android-Postfix-Completion" class="headerlink" title="Android Postfix Completion"></a>Android Postfix Completion</h2><p>增加.toast，.log等模板支持</p>
+<h3 id="27-Kotlin"><a href="#27-Kotlin" class="headerlink" title="27. Kotlin"></a>27. <del>Kotlin</del></h3><hr>
+<p>PermissionsDispatcher plugin前置要求，提供kotlin语言支持</p>
+<h3 id="28-Statistic"><a href="#28-Statistic" class="headerlink" title="28. Statistic"></a>28. Statistic</h3><hr>
+<p>代码行数统计分析，没怎么用</p>
+<h3 id="29-ADB-WIFI-参考文章"><a href="#29-ADB-WIFI-参考文章" class="headerlink" title="29. ADB WIFI  参考文章"></a>29. ADB WIFI  <a href="https://www.jianshu.com/p/21d1b65d92a4" target="_blank" rel="noopener">参考文章</a></h3><hr>
+<p>无需root就能wifi调试</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/ADBWIFI.png" alt=""></p>
+<h3 id="30-AndroidWiFiADB"><a href="#30-AndroidWiFiADB" class="headerlink" title="30. AndroidWiFiADB"></a>30. AndroidWiFiADB</h3><hr>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidWiFiADB1.gif" alt=""><br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidWiFiADB2.png" alt=""></p>
+<h3 id="31-FindBugs-IDEA"><a href="#31-FindBugs-IDEA" class="headerlink" title="31. FindBugs-IDEA"></a>31. FindBugs-IDEA</h3><hr>
+<p><a href="http://blog.csdn.net/fancy_xty/article/details/51718687" target="_blank" rel="noopener">通过FindBugs帮你找到隐藏的bug及不好的做法</a></p>
+<h3 id="32-CheckStyle-IDEA"><a href="#32-CheckStyle-IDEA" class="headerlink" title="32. CheckStyle-IDEA"></a>32. CheckStyle-IDEA</h3><hr>
+<p>CheckStyle-IDEA 是一个检查代码风格的插件，比如像命名约定，Javadoc，类设计等方面进行代码规范和风格的检查，你们可以遵从像Google Oracle 的Java 代码指南 ，当然也可以按照自己的规则来设置配置文件，从而有效约束你自己更好地遵循代码编写规范</p>
+<h3 id="33-Gradle-Dependencies-Helper"><a href="#33-Gradle-Dependencies-Helper" class="headerlink" title="33. Gradle Dependencies Helper"></a>33. Gradle Dependencies Helper</h3><hr>
+<p>Maven gradle依赖自动补全</p>
+<h3 id="34-AndroidPixelDimenGenerator"><a href="#34-AndroidPixelDimenGenerator" class="headerlink" title="34. AndroidPixelDimenGenerator"></a>34. AndroidPixelDimenGenerator</h3><hr>
+<p>Android Studio自动生成dimen.xml文件插件</p>
+<h3 id="35-Gradle-Killer"><a href="#35-Gradle-Killer" class="headerlink" title="35. Gradle Killer"></a>35. Gradle Killer</h3><hr>
+<p>Gradle 卡死可以用这个插件</p>
+<h3 id="36-Android-Drawable-Importer"><a href="#36-Android-Drawable-Importer" class="headerlink" title="36. Android Drawable Importer"></a>36. Android Drawable Importer</h3><hr>
+<p>这是一个非常强大的图片导入插件。它导入Android图标与Material图标的Drawable ，批量导入Drawable ，多源导入Drawable（即导入某张图片各种dpi对应的图片）</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter1.png" alt=""><br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter2.png" alt=""><br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter3.png" alt=""><br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter4.png" alt=""><br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter5.png" alt=""><br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter6.png" alt=""><br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter7.png" alt=""><br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidDrawableImporter8.png" alt=""></p>
+<h3 id="37-JRebel-for-Android"><a href="#37-JRebel-for-Android" class="headerlink" title="37. JRebel for Android"></a>37. JRebel for Android</h3><hr>
+<p>加速编译，增量编译，类似于Instant Run</p>
+<h3 id="38-GenerateSerialVerisonUID"><a href="#38-GenerateSerialVerisonUID" class="headerlink" title="38. GenerateSerialVerisonUID"></a>38. GenerateSerialVerisonUID</h3><hr>
+<p>Android的Bean类，很常会实现Serializable接口，为了更好支持序列化和反序列化，还需要指定一个serialVersionUID，如果手写一个又怕不合适，鉴于此有人开发了GenerateSerialVerisonUID 这个插件，可以根据Bean字段内容生成UID。在实现了Serializable接口的Bean类里使用快捷键Alt + Insert选择SerialVersionUID即可。</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/GenerateSerialVerisonUID.webp" alt=""></p>
+<h3 id="39-Markdown-support"><a href="#39-Markdown-support" class="headerlink" title="39. Markdown support"></a>39. Markdown support</h3><hr>
+<p>项目中常会有个README.md文件，但AS默认不支持格式化显示Markdown文件，安装Markdown support便可编辑以及查看实时效果</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/Markdownsupport.webp" alt=""></p>
+<h3 id="40-idea-markdown"><a href="#40-idea-markdown" class="headerlink" title="40. idea-markdown"></a>40. idea-markdown</h3><hr>
+<p>markdown插件<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/idea-markdown.png" alt=""></p>
+<h3 id="41-Markdown-Navigator-github"><a href="#41-Markdown-Navigator-github" class="headerlink" title="41. Markdown Navigator github"></a>41. Markdown Navigator <a href="https://github.com/vsch/idea-multimarkdown/wiki">github</a></h3><hr>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/MarkdownNavigator.gif" alt=""></p>
+<h3 id="42-RemoveButterKnife"><a href="#42-RemoveButterKnife" class="headerlink" title="42. RemoveButterKnife"></a>42. RemoveButterKnife</h3><hr>
+<p>ButterKnife这个第三方库每次更新之后，绑定view的注解都会改变，从bind,到inject，再到bindview，搞得很多人都不敢升级，一旦升级，就会有巨量的代码需要手动修改，非常痛苦<br>当我们有一些非常棒的代码需要拿到其他项目使用，但是我们发现，那个项目对第三方库的使用是有限制的，我们不能使用butterknife，这时候，我们又得从注解改回findviewbyid<br>针对上面的两种情况，如果view比较少还好说，如果有几十个view，那么我们一个个的手动删除注解，写findviewbyid语句，简直是一场噩梦（别问我为什么知道这是噩梦）<br>所以，这种有规律又重复简单的工作为什么不能用一个插件来实现呢？于是RemoveButterKnife的想法就出现了。</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/RemoveButterKnife.gif" alt=""></p>
+<h3 id="43-AndroidProguardPlugin"><a href="#43-AndroidProguardPlugin" class="headerlink" title="43. AndroidProguardPlugin"></a>43. AndroidProguardPlugin</h3><hr>
+<p>一键生成项目混淆代码插件，值得你安装~(不过目前可能有些第三方项目的混淆还未添加完全)</p>
+<h3 id="44-eventbus-intellij-plugin"><a href="#44-eventbus-intellij-plugin" class="headerlink" title="44. eventbus-intellij-plugin"></a>44. eventbus-intellij-plugin</h3><hr>
+<p>eventbus导航插件(对于最新版的 EventBus 3.0.0 好像无效,请替换为eventbus3-intellij-plugin)<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/eventbus-intellij-plugin.gif" alt=""></p>
+<h3 id="45-eventbus3-intellij-plugin"><a href="#45-eventbus3-intellij-plugin" class="headerlink" title="45. eventbus3-intellij-plugin"></a>45. eventbus3-intellij-plugin</h3><hr>
+<p>引导 EventBus 的 post 和 event(对于最新版的 EventBus 3.0.0 有效)<br>主要Bug修复工作：<br>修改包名和方法名以适应 EventBus 3.X<br>替换一个在新版的 intellij plugin SDK 已经不存在的类<br>增加若干 try-catch ，防止插件崩溃</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/eventbus3-intellij-plugin.gif" alt=""></p>
+<h3 id="46-Sexy-Editor"><a href="#46-Sexy-Editor" class="headerlink" title="46. Sexy Editor"></a>46. Sexy Editor</h3><hr>
+<p>设置AS代码编辑区的背景图</p>
+<p>首先点击界面的设置按钮 进入设置界面，选中Plugins,右边选择 Browser … ，输入Sexy … 下面自动弹出候选插件，右边点击Install 安装</p>
+<p>安装成功后需要重启AS</p>
+<p>重启完成之后 进入设置界面 选择other Setting 下的Sexy Editor ， 右侧 insert 一张或多张图片即可，上面的其他设置可以设置方位 间隔时间 透明度等等，设置完成后，要关闭打开的文件，重新打开项目文件即可在代码编辑区显示插入的图片，作为代码编辑区的背景图。</p>
+<h3 id="47-folding-plugin"><a href="#47-folding-plugin" class="headerlink" title="47. folding-plugin"></a>47. folding-plugin</h3><hr>
+<p>布局文件分组的插件</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/folding-plugin.png" alt=""></p>
+<h3 id="48-Android-Studio-Prettify"><a href="#48-Android-Studio-Prettify" class="headerlink" title="48. Android Studio Prettify"></a>48. Android Studio Prettify</h3><hr>
+<p>可以将代码中的字符串写在string.xml文件中</p>
+<p>选中字符串鼠标右键选择图中所示<br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidStudioPrettify1.png" alt=""></p>
+<p>这个插件还可以自动书写findViewById</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidStudioPrettify2.gif" alt=""></p>
+<h3 id="49-ignore"><a href="#49-ignore" class="headerlink" title="49. .ignore"></a>49. .ignore</h3><hr>
+<p>我们都知道在Git 中想要过滤掉一些不想提交的文件，可以把相应的文件添加到.gitignore 中，而.gitignore 这个Android Studio 插件根据不同的语言来选择模板，就不用自己在费事添加一些文件了，而且还有自动补全功能，过滤文件再也不要复制文件名了。我们做项目的时候，并不是所有文件都是要提交的，比如构建的build 文件夹，本地配置文件，每个Module 生成的iml 文件，但是我们每次add，commit 都会不小心把它们添加上去，而gitignore 就是解决这种痛点的，如果你不想提交的文件，就可以在创建项目的时候将这个文件中添加即可，将一些通用的东西屏蔽掉。</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/.ignore1.gif" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/.ignore2.gif" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/.ignore3.gif" alt=""></p>
+<h3 id="50-AndroidLocalizationer"><a href="#50-AndroidLocalizationer" class="headerlink" title="50. AndroidLocalizationer"></a>50. AndroidLocalizationer</h3><hr>
+<p>可用于将项目中的 string 资源自动翻译为其他语言的 Android Studio/IntelliJ IDEA 插件</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidLocalizationer1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/AndroidLocalizationer2.png" alt=""></p>
+<h3 id="51-Codota"><a href="#51-Codota" class="headerlink" title="51. Codota"></a>51. Codota</h3><hr>
+<p>搜索最好的Android代码。(Studio里面直接可以搜到此插件)</p>
+<h3 id="52-android-strings-search-plugin"><a href="#52-android-strings-search-plugin" class="headerlink" title="52. android-strings-search-plugin"></a>52. android-strings-search-plugin</h3><hr>
+<p>一个可以通过输入文字找到strings.xml资源的插件</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/android-strings-search-plugin.gif" alt=""></p>
+<h3 id="53-ideaVim-详细请看文章"><a href="#53-ideaVim-详细请看文章" class="headerlink" title="53. ideaVim 详细请看文章"></a>53. ideaVim <a href="https://www.jianshu.com/p/43862126b88f" target="_blank" rel="noopener">详细请看文章</a></h3><hr>
+<p>vim 本身就是一款很优秀的文本编辑器，而Android Studio 更是一款编写APP应用的神器。如果两个款优秀的软件结合在一起感觉会怎样呢？</p>
+<h3 id="54-ApkMultiChannelPlugin"><a href="#54-ApkMultiChannelPlugin" class="headerlink" title="54. ApkMultiChannelPlugin"></a>54. ApkMultiChannelPlugin</h3><hr>
+<p>这是一个为了方便 Android 多渠道打包的 Android Studio / IDEA 插件</p>
+<p>安装:</p>
+<pre><code>打开 Android Studio: 打开 Setting/Preferences -&gt; Plugins -&gt; Browse repositories 然后搜索 ApkMultiChannel 安装重启</code></pre><p>或者</p>
+<pre><code>下载 ApkMultiChannelPlugin.jar 然后 Setting/Preferences -&gt; Plugins -&gt; Install plugin from disk 选择 ApkMultiChannelPlugin.jar 安装重启</code></pre><p>使用方式:</p>
+<p> 1.选择 apk</p>
+<pre><code>选择一个 apk 然后右键，点击 Build MultiChannel</code></pre><p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/ApkMultiChannelPlugin1.png" alt=""></p>
+<p>2.配置</p>
+<pre><code>配置签名信息，打包方式和渠道等</code></pre><p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/ApkMultiChannelPlugin2.png" alt=""></p>
+<pre><code>配置说明：
+
+Key Store Path: 签名文件的路径
+
+Key Store Password: 签名文件的密码
+
+Key Alias: 密钥别名
+
+Key Password: 密钥密码
+
+Zipalign Path: zipalign文件的路径（用于优化 apk；zipalign 可以确保所有未压缩的数据均是以相对于文件开始部分的特定字节对齐开始，这样可减少应用消耗的 RAM 量。）
+
+Signer Version: 选择签名版本：apksigner 和 jarsigner
+
+Build Type: 打包方式
+
+Channels: 渠道列表，每行一个，最前面可加 &gt; 或不加（保存信息的时候，程序会自行加上）         </code></pre><p>3.开始打包</p>
+<pre><code>配置完成之后按 OK 就会开始进行渠道打包，文件会输出在选中的apk的当前目录下的channels目录中</code></pre><p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/ApkMultiChannelPlugin3.png" alt=""></p>
+<h3 id="55-MultiTypeTemplates-–MultiType-详解"><a href="#55-MultiTypeTemplates-–MultiType-详解" class="headerlink" title="55. MultiTypeTemplates –MultiType 详解"></a>55. MultiTypeTemplates <a href="http://gank.io/post/5823bcf6421aa90e799ec2ad" target="_blank" rel="noopener">–MultiType 详解</a></h3><hr>
+<p>生成MultiType和itemviewprovider</p>
+<p><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/MultiTypeTemplates1.jpg" alt=""><br><img src="https://raw.githubusercontent.com/xiashi/my-photo-gallery/master/plugins_icons/MultiTypeTemplates2.jpg" alt=""></p>
+<h3 id="56-LeakCanary-参考文章"><a href="#56-LeakCanary-参考文章" class="headerlink" title="56. LeakCanary 参考文章"></a>56. LeakCanary <a href="https://www.liaohuqiu.net/cn/posts/leak-canary-read-me/" target="_blank" rel="noopener">参考文章</a></h3><hr>
+<p>帮助你在开发阶段方便的检测出内存泄露的问题，使用起来更简单方便。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://github.com/xiashi/xiashi.github.io/tree/master/2019/12/24/Android%20Studio%E8%87%AA%E7%94%A8%E6%8F%92%E4%BB%B6%E6%80%BB%E7%BB%93/" title="Android Studio自用插件总结" target="_blank" rel="external">https://github.com/xiashi/xiashi.github.io/tree/master/2019/12/24/Android%20Studio%E8%87%AA%E7%94%A8%E6%8F%92%E4%BB%B6%E6%80%BB%E7%BB%93/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/xiashi" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/xiashi" target="_blank"><span class="text-dark">阿龙的猪</span><small class="ml-1x">游戏人生</small></a></h3>
+        <div>凡你抗拒的,都将持续。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2019/12/24/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/" title="小程序开发指南"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/xiashi" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
